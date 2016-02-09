@@ -1,7 +1,7 @@
 all: BUILD_DSK
 
 
-DSK_FNAME=test.dsk
+DSK_FNAME={{cookiecutter.project_name_slug}}.dsk
 LOAD_ADDRESS=x4000
 
 
