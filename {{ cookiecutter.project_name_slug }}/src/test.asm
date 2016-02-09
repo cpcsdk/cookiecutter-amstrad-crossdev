@@ -26,7 +26,7 @@
     INFINITE_LOOP
 
 
-message defs "Hello {{group_name}} !"
+message defs "Hello {{cookiecutter.group_name}} !"
     db 0
 
 PRINT_CHAR equ 0xBB5A
