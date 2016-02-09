@@ -1,1 +1,3 @@
  {{cookiecutter.project_name}} by {{cookiecutter.groupname}} 
+
+ {{cookiecutter.project_short_description}}
