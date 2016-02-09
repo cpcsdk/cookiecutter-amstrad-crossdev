@@ -1,0 +1,7 @@
+{
+    "group_name": "benediction",
+    "project_name": "killerdemo",
+    "project_name_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
+    "group_name_slug": "{{ cookiecutter.group_name.lower().replace(' ', '_') }}",
+    "project_short_description": "The killer demo for CPC"
+}

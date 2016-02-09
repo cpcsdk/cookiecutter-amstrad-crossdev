@@ -1,0 +1,41 @@
+# Cookiecutter template for z80 aplication
+
+Initially build for Amstrad CPC demomaking, but can be very easily adapted for any kind of Z80 projects by adapting cookicutter.json
+
+The generated projects use a Docker container (https://github.com/cpcsdk/docker-amstrad-crossdev) in order to avoid a manual installation of all the dependencies.
+
+
+# Installation of cookie cutter
+```bash
+$ sudo pip install cookiecutter
+```
+
+# Creation of a new project
+```bash
+$ cookiecutter XXX
+group_name [benediction]: 
+project_name [killerdemo]: 
+project_name_slug [killerdemo]: 
+group_name_slug [benediction]: 
+project_short_description [The killer demo for CPC]: 
+```
+
+# Utilisation of the new project
+
+```bash
+$ cd killerdemo 		# The name of the created repository
+$ ./bootstrap.sh 		# Launch the docker container
+```
+
+Once on the container instance:
+```bash
+$ make 
+```
+to build the project.
+
+Now it is up to you to add additional files and update the Dockerfile and the Makefile accoarding to your project.
+
+
+# Note for windows users
+
+It is probably easier to launch cookiecutter from a container launched with bootstrap.sh...
