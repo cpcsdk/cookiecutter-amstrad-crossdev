@@ -31,7 +31,9 @@ Once on the container instance:
 ```bash
 $ make 
 ```
-to build the project.
+to build `killerdemo.dsk`.
+
+Of course `killerdemo` has to be replaced by the name of your project.
 
 Now it is up to you to add additional files and update the Dockerfile and the Makefile accoarding to your project.
 
