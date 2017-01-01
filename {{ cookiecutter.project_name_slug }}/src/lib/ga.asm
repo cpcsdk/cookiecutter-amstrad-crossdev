@@ -80,4 +80,25 @@ GA_BRIGHT_YELLOW    set GA_COL_24
 GA_PASTEL_YELLOW    set GA_COL_25 
 GA_BRIGHT_WHITE set GA_COL_26 
 
-    endif
+
+
+
+
+  macro SET_MODE_0
+    ld bc, 0x7f8c
+    out (c), c
+  endm
+
+
+  macro SET_MODE_1
+    ld bc, 0x7f8d
+    out (c), c
+  endm
+
+  macro SET_MODE_2
+    ld bc, 0x7f8e
+    out (c), c
+  endm  
+  
+  
+  endif
