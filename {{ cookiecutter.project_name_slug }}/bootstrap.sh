@@ -22,7 +22,7 @@ case $DETECTED_OS in
 linux)
 	LOCAL_WORKING_DIRECTORY=$(pwd)
 	DOCKER_WORKING_DIRECTORY=/home/arnold/project
-	DOCKER_X11_FORWARDING="-e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix"
+	DOCKER_X11_FORWARDING="-e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --privileged"
 	;;
 
 windows)
@@ -34,6 +34,20 @@ esac
 
 DOCKER=docker
 DOCKER_HOSTNAME=$(basename $(pwd))
+
+DOCKER_BASEIMAGE=$(grep FROM Dockerfile | sed -e 's/^FROM\s*//')
+
+
+DOCKER_IMAGE_DATE=$(docker images --format="{{.CreatedAt}}" $DOCKER_IMAGE)
+DOCKER_BASEIMAGE_DATE=$(docker images --format="{{.CreatedAt}}" $DOCKER_BASEIMAGE)
+
+# XXX Attention here it is not portable at all
+# XXX Need to find a way which works everywhere
+DOCKER_BASEIMAGE_DATE=$( echo "$DOCKER_BASEIMAGE_DATE" | sed -e 's/..... CEST//')
+DOCKER_IMAGE_DATE=$( echo "$DOCKER_IMAGE_DATE" | sed -e 's/..... CEST//')
+
+DOCKER_BASEIMAGE_DATE=$(date -d "$DOCKER_BASEIMAGE_DATE"  '+%s')
+DOCKER_IMAGE_DATE=$(date -d "$DOCKER_IMAGE_DATE"  '+%s')
 
 
 
@@ -114,6 +128,17 @@ function launch
 
 
 
+function checkImageCoherence
+{
+
+if test "$DOCKER_BASEIMAGE_DATE" -gt "$DOCKER_IMAGE_DATE"
+then
+  echo "Parent image is newer -- I need to rebuild mine !!\n"
+  buildImage
+fi
+}
+
+
 
 case "$1" in
     rebuildImage)
@@ -126,13 +151,17 @@ case "$1" in
 		doHelp $0
 		;;
     test)
-		launch
+      checkImageCoherence
+	  	launch
 		;;
     "")
-        launchImage
+
+      checkImageCoherence
+      launchImage
 		;;
     *)
-		launchImage $*
+      checkImageCoherence
+		  launchImage $*
 esac
 
 

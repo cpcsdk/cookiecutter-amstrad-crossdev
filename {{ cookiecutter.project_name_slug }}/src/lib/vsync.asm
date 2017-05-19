@@ -7,6 +7,7 @@
 
 ;;
 ; Wait a new vsync (i.e., do not stop if we are already in a vsync)
+  ifused secure_vsync
 secure_vsync
     ld b, 0xf5
 .vsync_detected
@@ -15,7 +16,11 @@ secure_vsync
     jr c, .vsync_detected
     ; here we leave the vsync
 
+WEWANTTOUSEVSYNC equ vsync
+    endif
+
  
+  ifused vsync
 vsync
     ld b, 0xf5
 .no_vsync_detected
@@ -24,6 +29,7 @@ vsync
     jr nc, .no_vsync_detected
     ; here we have detected a vsync
     ret
+  endif
 
 
 

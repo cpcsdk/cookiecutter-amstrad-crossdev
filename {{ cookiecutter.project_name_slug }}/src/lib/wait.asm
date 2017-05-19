@@ -6,6 +6,8 @@
 ; http://cpcrulez.fr/forum/viewtopic.php?p=15827#p15827
 
 
+  ifndef INCLUDED_WAIT
+INCLUDED_WAIT
 
     MACRO   WAIT_CYCLES, cycles
 
@@ -81,3 +83,6 @@ gnop_n set -gnop_b*4 - 1 + n
 	endif
 	ds gnop_n,0
     endmacro
+
+
+    endif
