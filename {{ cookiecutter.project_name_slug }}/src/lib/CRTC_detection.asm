@@ -155,50 +155,50 @@ TestCRTC
     call TestReg31      ;      x,1,x,1,1
     ei
     ld a,(TypeCRTC)
-    ; cp CRTC0:jr z,Type_0 {{{ Automatic expanding
+    ; cp CRTC0:jr z,Type_0 \{\{\{ Automatic expanding
      cp CRTC0
     jr z,Type_0
-    ; }}}
-    ; cp CRTC1:jr z,Type_1 {{{ Automatic expanding
+    ; \}\}\}
+    ; cp CRTC1:jr z,Type_1 \{\{\{ Automatic expanding
      cp CRTC1
     jr z,Type_1
-    ; }}}
-    ; cp CRTC2:jr z,Type_2 {{{ Automatic expanding
+    ; \}\}\}
+    ; cp CRTC2:jr z,Type_2 \{\{\{ Automatic expanding
      cp CRTC2
     jr z,Type_2
-    ; }}}
-    ; cp CRTC3:jr z,Type_3 {{{ Automatic expanding
+    ; \}\}\}
+    ; cp CRTC3:jr z,Type_3 \{\{\{ Automatic expanding
      cp CRTC3
     jr z,Type_3
-    ; }}}
-    ; cp CRTC4:jr z,Type_4 {{{ Automatic expanding
+    ; \}\}\}
+    ; cp CRTC4:jr z,Type_4 \{\{\{ Automatic expanding
      cp CRTC4
     jr z,Type_4
-    ; }}}
-    ; ld a,0xf:ret {{{ Automatic expanding
+    ; \}\}\}
+    ; ld a,0xf:ret \{\{\{ Automatic expanding
      ld a,0xf
     ret
-    ; }}}
-; Type_0  ld a,0:ret {{{ Automatic expanding
+    ; \}\}\}
+; Type_0  ld a,0:ret \{\{\{ Automatic expanding
 Type_0  ld a,0
     ret
-; }}}
-; Type_1  ld a,1:ret {{{ Automatic expanding
+; \}\}\}
+; Type_1  ld a,1:ret \{\{\{ Automatic expanding
 Type_1  ld a,1
     ret
-; }}}
-; Type_2  ld a,2:ret {{{ Automatic expanding
+; \}\}\}
+; Type_2  ld a,2:ret \{\{\{ Automatic expanding
 Type_2  ld a,2
     ret
-; }}}
-; Type_3  ld a,3:ret {{{ Automatic expanding
+; \}\}\}
+; Type_3  ld a,3:ret \{\{\{ Automatic expanding
 Type_3  ld a,3
     ret
-; }}}
-; Type_4  ld a,4:ret {{{ Automatic expanding
+; \}\}\}
+; Type_4  ld a,4:ret \{\{\{ Automatic expanding
 Type_4  ld a,4
     ret
-; }}}
+; \}\}\}
 
 
 ; Test bas{ sur la mesure de la longueur de VBL
@@ -385,10 +385,10 @@ Change  ld c,a
     rra
     jr nc,SyncTDB2  ; On boucle en attendant la VBL
 
-    ; db 0xdd:ld a,l   ; Si on n'a pas eu juste deux {{{ Automatic expanding
+    ; db 0xdd:ld a,l   ; Si on n'a pas eu juste deux \{\{\{ Automatic expanding
      db 0xdd
     ld a,l   ; Si on n'a pas eu juste deux
-    ; }}}
+    ; \}\}\}
     cp 2        ; transitions alors ce n'est
     jp nz,Type0234  ; pas un Type 1
     jp Type1    ; Pour plus de fiabilit{ au
