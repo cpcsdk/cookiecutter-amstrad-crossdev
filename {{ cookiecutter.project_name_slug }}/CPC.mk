@@ -130,7 +130,8 @@ PUT_FILE_INTO_DSK =  iDSK $(1) -i $(2) -f 2> /dev/null > /dev/null
 
 # Convert a dsk in hfe
 CREATE_HFE = $(HXC_CONVERTER) -finput:$(1) -foutput:$(2) -conv:HXC_HFE
-
+%.hfe: %.dsk
+	$(call CREATE_HFE,$^,$@)
 
 # Macro set a header to a file
 ##############################
@@ -150,6 +151,15 @@ REMOVE_HEADER = dd if=$(1) of=$(1).NOHEADER bs=128 skip=1
 
 # Macro to call damsConverter
 DAMS_CONVERTER = damsConverter $(1) $(2)
+
+
+#
+# M4 - CPCWIFI
+
+XFER?=/usr/local/lib/xfer
+CPCIP?=192.168.1.26
+RUN_FILE_ON_CPC = $(XFER) -y $(CPCIP) $(1) 
+
 
 # Launch AFT
 ############
