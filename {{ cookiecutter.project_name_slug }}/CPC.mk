@@ -55,17 +55,8 @@ VPATH= src
 # ###############
 
 #TODO build here a .lst file compatbile between vasm and sjasmplus
-%.o %.lst: %.asm
-# Assemble using sjamsplus2 (private assembler based on sjasm)
-	@echo -e '\033[0;34m\033[1mCompile \033[4m$<\033[0m\033[1m\033[0;34m\033[1m to \033[4m$@\033[0m \033[0m'
-ifneq (, $(findstring sjasmplus2,$(ASSEMBLER)))
-	$(ASSEMBLER) --inc=src --sym=$(notdir $(<:.asm=.sym)) --lst=$(notdir $(<:.asm=.lst)) --raw=$@ $<  > compilation.log && exit 0; \
-	cat compilation.log ; \
-       	rm $@; \
-	exit 255
- endif
-# Assembling using vasm
- ifneq (, $(findstring vasmz80,$(ASSEMBLER)))
+%.o %.lst : %.asm
+	echo $*.o: $$( $(ASSEMBLER) $(ASMFLAGS) -quiet $< -dependall=make ) > $(@:.o=.depend)  # build dependencies
 	$(ASSEMBLER) $(ASMFLAGS) -L $(notdir $(<:.asm=.lst))  -Fbin -o $*.o $< > compilation.log && exit 0; \
 		cat compilation.log ; \
 		 rm $@ ; \
@@ -75,6 +66,7 @@ ifneq (, $(findstring sjasmplus2,$(ASSEMBLER)))
   endif
  endif
 
+-include  *.depend
 
 # Build a complete list of symbols when required
 # ONLY works with Powershell :(
