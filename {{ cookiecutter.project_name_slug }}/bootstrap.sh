@@ -10,6 +10,7 @@ DSK_TEST=./{{cookiecutter.project_name_slug}}.dsk
 
 {% raw %}
 
+# Common code for all the projects
 # OS detection code
 UNAME=$(uname -s)
 DETECTED_OS=linux
@@ -38,6 +39,7 @@ esac
 
 DOCKER=docker
 DOCKER_HOSTNAME=$(basename $(pwd))
+DOCKER_USER_OPTION="-e LOCAL_USER_ID=$(id -u $USER)"
 
 DOCKER_BASEIMAGE=$(grep FROM Dockerfile | sed -e 's/^FROM\s*//')
 if [[ $DOCKER_BASEIMAGE == *:* ]]
@@ -84,14 +86,14 @@ function launchImage
 	
 	# Manage parameters for aft
 	# XXX Implement a better and more robust way to do things ...
-	case $DETECTED_OS in
+	case $DETECTED_OS in 
 		linux) AFT_PORT=/dev/ttyUSB0 ;;
 		windows) AFT_PORT=/dev/ttyS3 ;;
 	esac
-
+	
     if  test -e "$AFT_PORT"
     then
-		AFT_OPTION="--device $AFT_PORT"
+		AFT_OPTION="--device $AFT_PORT" 
     else
 		echo "aft unusable ($AFT_PORT does not exists)" >&2
 		AFt_OPTION=""
@@ -105,11 +107,12 @@ function launchImage
 	$DOCKER_AFT_OPTION
 	$DOCKER_SOUND_CONFIGURATION
 	$AFT_OPTION
+    	$DOCKER_USER_OPTION
 	--rm=true
 	-i
 	-t
 	$DOCKER_IMAGE
-        $*"
+    	$*"
 
 
     # launch the image
@@ -176,7 +179,7 @@ case "$1" in
 		;;
     test)
       checkImageCoherence
-	  	launch
+      launch
 		;;
     "")
 
@@ -185,7 +188,7 @@ case "$1" in
 		;;
     *)
       checkImageCoherence
-		  launchImage $*
+      launchImage $*
 esac
 
 
