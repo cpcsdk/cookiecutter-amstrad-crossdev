@@ -71,7 +71,7 @@ DOCKERFILE_DATE=$(date -r Dockerfile "+$DATE_FORMAT_EXPECTED")
 
 function buildImage
 {
-    $DOCKER build -t $DOCKER_IMAGE .
+    $DOCKER build -t $DOCKER_IMAGE . || exit 1
 }
 
 function launchImage
