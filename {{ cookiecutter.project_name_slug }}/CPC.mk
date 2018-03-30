@@ -149,7 +149,7 @@ DAMS_CONVERTER = damsConverter $(1) $(2)
 # M4 - CPCWIFI
 
 XFER?=/usr/local/bin/xfer
-CPCIP?=192.168.1.26
+CPCIP?=192.168.1.22
 RUN_FILE_ON_CPC = $(XFER) -y $(CPCIP) $(1) 
 
 

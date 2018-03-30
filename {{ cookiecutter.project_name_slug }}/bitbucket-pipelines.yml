@@ -1,0 +1,18 @@
+# This is a sample build configuration for Other.
+# Check our guides at https://confluence.atlassian.com/x/5Q4SMw for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+
+image: cpcsdk/crossdev:3.2
+
+clone:
+  depth: 1
+
+pipelines:
+  default:
+    - step:
+        script:
+          - make BUILD_DSK
+          - mv ./{{cookiecutter.project_name_slug}}.dsk $(git branch | grep '^\*' | sed -e "s/\* //").dsk
+          - curl -X POST "https://${BB_AUTH_STRING}@api.bitbucket.org/2.0/repositories/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/downloads" --form files=@"$(git branch | grep '^\*' | sed -e "s/\* //").dsk"

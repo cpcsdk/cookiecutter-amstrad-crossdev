@@ -25,19 +25,19 @@ case $DETECTED_OS in
 linux)
 	LOCAL_WORKING_DIRECTORY=$(pwd)
 	DOCKER_WORKING_DIRECTORY=/home/arnold/project
-	DOCKER_X11_FORWARDING="-e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --privileged"
+	DOCKER_X11_FORWARDING="--env=DISPLAY  --env=QT_X11_NO_MITSHM=1  --volume=/tmp/.X11-unix:/tmp/.X11-unix:rw  --privileged"
 	DOCKER_SOUND_CONFIGURATION="-v /dev/snd:/dev/snd -v /dev/shm:/dev/shm -v /etc/machine-id:/etc/machine-id -v /run/user/$(id -u)/pulse:/run/user/$(id -u)/pulse -v /var/lib/dbus:/var/lib/dbus -v $HOME/.pulse:/home/arnold/.pulse"
+	WINPTY=""
 	;;
 
 windows)
-	LOCAL_WORKING_DIRECTORY=/$(pwd)
-	DOCKER_WORKING_DIRECTORY=//home/arnold/project
-	DOCKER_X11_FORWARDING=""
-	DOCKER_SOUND_CONFIGURATION=""
+	echo "Windows version"
+	winpty powershell '.\bootstrap.ps1' $*
+	exit 0
 	;;
 esac
 
-DOCKER=docker
+DOCKER="$WINPTY docker"
 DOCKER_HOSTNAME=$(basename $(pwd))
 DOCKER_USER_OPTION="-e LOCAL_USER_ID=$(id -u $USER)"
 
@@ -100,9 +100,10 @@ function launchImage
 	fi
 
 
-    ALL_OPTIONS=" -h $DOCKER_HOSTNAME
-	-v $LOCAL_WORKING_DIRECTORY:$DOCKER_WORKING_DIRECTORY
-	-w $DOCKER_WORKING_DIRECTORY
+    ALL_OPTIONS="
+    -h $DOCKER_HOSTNAME
+    -v $LOCAL_WORKING_DIRECTORY:$DOCKER_WORKING_DIRECTORY
+    -w $DOCKER_WORKING_DIRECTORY
 	$DOCKER_X11_FORWARDING
 	$DOCKER_AFT_OPTION
 	$DOCKER_SOUND_CONFIGURATION
