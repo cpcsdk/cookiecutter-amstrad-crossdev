@@ -64,7 +64,6 @@ VPATH= src
   ifneq (, $(findstring WINDOWS,$(PATH)))
 	$(ASSEMBLER)  $(ASMFLAGS) -Ftest -o  $*.lst $<
   endif
- endif
 
 -include  *.depend
 
@@ -132,7 +131,7 @@ CREATE_HFE = $(HXC_CONVERTER) -finput:$(1) -foutput:$(2) -conv:HXC_HFE
 # load and exec are called like xffff and xffff
 # TODO test for other type of files !
 SET_HEADER = echo '\033[0;31m\033[1mSet header to \033[4m$(1)\033[0m'; \
-	     $(HIDEUR) $(1) -o $(2) -t $(3) -l $(4) -x $(5) 
+	     $(HIDEUR) $(1) -o $(2) -t $(3) -l $(4) -x $(5)
 
 
 # Remove the header of an AMSDOS file
